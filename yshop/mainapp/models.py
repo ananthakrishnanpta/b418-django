@@ -11,7 +11,12 @@ class Product(models.Model):
     name = models.CharField(max_length = 200) # this forms a varchar col in the `Product` table of name `name`
     price = models.PositiveIntegerField() # unsigned integer
     desc = models.TextField() # becomes long or medium text
+    stock = models.PositiveIntegerField(default=1) # stock INT DEFAULT 1
+    
+    # for the ImageField, sql stores only the relative path of the images, the actual image will be stored
+    # in the specified Media server subfolder, in this case, `products`. Rest of config is in settings.py
+    pic = models.ImageField(upload_to = "products/", null = True)
 
 
     def __str__(self):
-        return self.name
+        return f"product : {self.name}"
