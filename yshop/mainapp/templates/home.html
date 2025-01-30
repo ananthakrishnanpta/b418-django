@@ -1,4 +1,5 @@
-<!doctype html>
+<!DOCTYPE html>
+{% load static %} <!-- Instructing the template to load the static files -->
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -69,6 +70,20 @@
 
         {% endfor %}
       </ul>
+
+      <div class="card-group">
+        {% for product in prods %}
+        <div class="card">
+          <img src="{{product.pic}}" class="card-img-top" alt="An image of {{product.name}}">
+          <div class="card-body">
+            <h5 class="card-title">{{product.name}}</h5>
+            <p class="card-text">{{product.desc}}</p>
+            <p class="card-text">&#8377; {{product.price}}</p>
+            <p class="card-text"><small class="text-body-secondary"></small></p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
       <!-- Django template code ends here -->
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

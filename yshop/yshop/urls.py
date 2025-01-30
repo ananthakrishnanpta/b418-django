@@ -16,8 +16,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+# importing the following to allow media folder to be available in the development server.
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('mainapp.urls'))
 ]
+
+if settings.DEBUG == True:
+    urlpatterns +=  static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+
+# In debug mode, during development, django will help to host the media folder and act as a media server
+# But, during deployment, this debug mode will be turned off for security purposes.
+# Debug mode throws exceptions into the front end to help debug the backend during development.
+# This must be turned off by changing the value of `DEBUG ` variable in django's settings.py.
+# The above line of code enables django server to include the media folder in hosting during debug mode.
