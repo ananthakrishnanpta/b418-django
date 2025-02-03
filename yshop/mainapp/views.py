@@ -18,3 +18,11 @@ def home(request):
     return HttpResponse(template.render(context, request)) # creates a response object after rendering
     # the returned response has the html of completed webpage including required data.
 
+# view function for rendering individual product page 
+def product_details(request, id):
+    product = Product.objects.get(id = id) # select * from products where id = <parameter_id>
+    context = {
+        'prod' : product 
+    }
+    template = loader.get_template('prod_details.html')
+    return HttpResponse(template.render(context, request))
