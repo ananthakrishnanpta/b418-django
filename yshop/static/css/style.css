@@ -3,19 +3,44 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
 body {
     main {
         max-width: 700px;
         margin: auto;
-
+        margin-top: 100px;
 
         div.class-group {
             div.card {
                 width: 100px;
 
-                div.card-img{
+                div.card-img {
                     height: 100px;
+                }
+            }
+        }
+
+        div.container-fluid {
+            .row {
+                .col {
+                    width: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: flex-start;
+                    .img {
+                        width: 100%;
+                        background-color: black;
+
+                        img {
+                            width: 100%;
+                            aspect-ratio: 1/1;
+                            object-fit: contain;
+                        }
+                    }
                 }
             }
         }
