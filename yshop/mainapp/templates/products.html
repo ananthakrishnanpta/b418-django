@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Yshop | Home
+{% endblock %}
+{% block content %}
+      <h1>
+        Products
+      </h1>
+      <!-- The django template code  to show all products in the page starts here -->
+
+
+      <div class="card-group">
+        {% for product in prods %}
+        <div class="card">
+          <img src="{{product.pic}}" class="card-img-top" alt="An image of {{product.name}}">
+          <div class="card-body">
+            <a href="{% url 'prod_details' product.id %}">
+              <h5 class="card-title">{{product.name}}</h5>
+            </a>
+            <p class="card-text">{{product.desc}}</p>
+            <p class="card-text">&#8377; {{product.price}}</p>
+            <p class="card-text"><small class="text-body-secondary"></small></p>
+            <button class="btn btn-primary">Add to Cart</button>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <!-- Django template code ends here -->
+{% endblock %}

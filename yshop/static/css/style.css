@@ -7,12 +7,37 @@ header {
     position: fixed;
     top: 0;
     width: 100%;
+    z-index: 10;
+    height: 50px;
 }
 body {
     main {
-        max-width: 700px;
+        /* max-width: 800px; */
+        width: 100%;
         margin: auto;
-        margin-top: 100px;
+        margin-top: 51px;
+        margin-bottom: 20px;
+
+
+        /* Styling for home page */
+        .carousel {
+            height: 300px;
+            width: 100%;
+            .carousel-inner {
+                overflow: hidden;
+                height: 100%;
+                .carousel-item {
+                    height: 100%;
+                    img{
+                        height: 100%;
+                        width: 100%;
+                        object-fit: cover;
+                        background-color: black;
+                    }
+                }
+            }
+        }
+
 
         div.class-group {
             div.card {
