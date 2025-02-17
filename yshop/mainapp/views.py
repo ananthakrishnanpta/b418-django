@@ -52,6 +52,7 @@ class AddProduct(CreateView):
         'stock',
         'pic'
     ]
+    template_name = 'addProduct.html'
     success_url = reverse_lazy('prod_page') # redirect to products page after adding product
 
 

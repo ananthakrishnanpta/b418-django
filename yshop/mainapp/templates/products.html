@@ -13,7 +13,9 @@
       <div class="card-group">
         {% for product in prods %}
         <div class="card">
-          <img src="{{product.pic}}" class="card-img-top" alt="An image of {{product.name}}">
+          {% if product.pic %}
+          <img src="{{product.pic.url}}" class="card-img-top" alt="An image of {{product.name}}">
+          {% endif %}
           <div class="card-body">
             <a href="{% url 'prod_details' product.id %}">
               <h5 class="card-title">{{product.name}}</h5>
