@@ -26,9 +26,21 @@
                 <span>
                     &#8377; {{ prod.price }}
                 </span>
+                
+                {% if user.is_staff %}
+                <div class="row">
+                    <div class="col">
+                        <a href="{% url 'edit_prod' prod.id %}" class="btn btn-outline-success">Edit Product</a>
+                    </div>
+                    <div class="col">
+                        <a href="{% url 'del_prod' prod.id %}" class="btn btn-outline-danger">Delete Product</a>
+                    </div>
+                </div>
+                {% else %}
                 <button class="btn btn-primary">
                     Add to cart
                 </button>
+                {% endif %}
             </div>
         </div>
     </div>

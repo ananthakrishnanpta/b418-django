@@ -35,13 +35,21 @@
                       <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{% url 'add_prod' %}" >Add Product</a>
-                  </li>
+                  {% if user.is_authenticated %}
+                    {% if user.is_staff %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'add_prod' %}" >Add Product</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="" >{{ user.username }}'s Cart</a>
+                    </li>
+                    {% endif %}
+                  {% endif %}
                 </ul>
                 
-                <form class="d-flex" role="search">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <form class="d-flex" role="search" method="get" action = "{% url 'prod_search' %}">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search_text" value="{{query}}">
                   <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
                 <ul class="navbar-nav mb-2 mb-lg-0">

@@ -39,12 +39,26 @@ body {
         }
 
 
-        div.class-group {
+        div.card-group {
+             margin: auto;
+             max-width: 80%;
             div.card {
-                width: 100px;
-
-                div.card-img {
-                    height: 100px;
+                margin: 10px;
+                /* background-color: blue; */
+                max-width: 200px;
+                height: 350px;
+                
+                    img {
+                        object-fit: cover;
+                        aspect-ratio: 1/1;
+                        height: 50%;
+                    }
+                .card-body {
+                    height: 50%;
+                    button {
+                        width: 60%;
+                        font-size: smaller;
+                    }
                 }
             }
         }

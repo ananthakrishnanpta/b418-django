@@ -63,11 +63,28 @@ class ProductsView(ListView):
     template_name = 'productsView.html'
     ordering = ['-id'] # to sort in descending order
 
+## Search results
+
+def searchView(request):
+    query = request.GET.get('search_text') 
+    # fetch the query text from GET request 
+    
+    results = Product.objects.filter(name__icontains = query) 
+    # collect the product objects matching the name
+    
+    context = {
+        'items' : results,
+        'query' : query
+    }
+    template = loader.get_template('searchResults.html')
+    return HttpResponse(template.render(context, request))
+
 # 3. U - Update
 
 class EditProduct(UpdateView):
     model = Product
     template_name = 'editProduct.html'
+    fields = '__all__'
     success_url = reverse_lazy('prod_page')
 
 # 4. D - Delete
@@ -77,3 +94,4 @@ class DelProduct(DeleteView):
     template_name = 'delProduct.html'
     success_url = reverse_lazy('homepage')
     
+

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Search for {{query}}
+{% endblock %}
+
+{% block content %}
+<h2>Search results for : '{{query}}'</h2>
+<div class="card-group">
+    {% for product in items %}
+    <div class="card">
+      {% if product.pic %}
+      <img src="{{product.pic.url}}" class="card-img-top" alt="An image of {{product.name}}">
+      {% else %}
+      <img src="{% static 'images\placeholders\No_Image_Available.jpg' %}" class="card-img-top" alt="An image of {{product.name}}">
+      {% endif %}
+      <div class="card-body">
+        <a href="{% url 'prod_details' product.id %}">
+          <h5 class="card-title text-center">{{product.name}}</h5>
+        </a>
+        <p class="card-text">{{product.desc}}</p>
+        <p class="card-text">&#8377; {{product.price}}</p>
+        <p class="card-text"><small class="text-body-secondary"></small></p>
+        <button class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}
