@@ -22,7 +22,7 @@ class CartItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # 3. Quantity of the specific item in cart
-    quantity = models.PositiveIntegerField(default=1)
+    quantity = models.PositiveIntegerField(default=0)
     
     # 4. Date when the product was added to cart
     date_added  = models.DateField(auto_now_add=True)
