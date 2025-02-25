@@ -43,9 +43,7 @@
                 {{item.product.price}}
             </td>
             <td class="grid">
-                <div class="row w-100">
-
-            
+                <div class="row w-100">            
                 <button onclick="updateCart('{% url 'remove_quantity' item.id %}', {{ item.id }}, false, '{{ csrf_token }}')" class="btn btn-outline-secondary col align-middle">
                     -
                 </button>
@@ -61,13 +59,17 @@
             </td>
         </tr>
         {% endfor %}
+        <tr>
+            <th colspan="4" class="text-center text-warning bg-dark">Total</th>
+            <td class="bg-secondary"><strong>Rs.<span id="overall-total">{{ total_price }}</span></strong></td>
+            <td><a href="{% url 'create_order' %}" class="btn btn-primary">Place Your Order</a></td>
+        </tr>
     </tbody>
-    <p><strong>Total: Rs.<span id="overall-total">{{ total_price }}</span></strong></p>
 </table>
 
 {% else %}
 Cart is Empty!!!
 {% endif %}
 
-<a href="{% url 'prod_page' %}" class="text-center">Shop More</a>
+<a href="{% url 'prod_page' %}" class="btn btn-sm btn-primary">Shop More</a>
 {% endblock %}
