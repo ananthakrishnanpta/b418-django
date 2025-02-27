@@ -11,68 +11,41 @@ from orders.forms import AddressForm
 # Initialize Razorpay client
 client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
-
 @login_required
 def create_razorpay_order(request, order_id):
+    """Create a Razorpay order and render the checkout page."""
     order = get_object_or_404(Order, id=order_id, user=request.user)
-    addresses = Address.objects.filter(user=request.user)
 
-    if request.method == "POST":
-        # Handling Address Selection
-        if "address_id" in request.POST:
-            selected_address = get_object_or_404(Address, id=request.POST["address_id"], user=request.user)
-            order.address = selected_address
-            order.save()
-        
-        # Handling Add Address
-        elif "add_address" in request.POST:
-            address_form = AddressForm(request.POST)
-            if address_form.is_valid():
-                new_address = address_form.save(commit=False)
-                new_address.user = request.user
-                new_address.save()
-                order.address = new_address
-                order.save()
-                return redirect('payment:create_razorpay_order', order_id=order.id)  # Redirect after adding address
-            else:
-                return render(request, "checkout.html", {
-                    "order": order,
-                    "addresses": addresses,
-                    "address_form": address_form,
-                    "error": "Invalid address data."
-                })
+    # Ensure an address is already selected
+    if not order.address:
+        return redirect('select_address_for_order', order_id=order.id)
 
-        # Razorpay Order Creation
-        razorpay_order_data = {
-            "amount": int(order.total_amount * 100),  # Convert to paisa
-            "currency": "INR",
-            "receipt": f"order_rcpt_{order.id}",
-            "payment_capture": 1
+    # Create a Razorpay Order
+    razorpay_order_data = {
+        "amount": int(order.total_amount * 100),  # Convert to paisa
+        "currency": "INR",
+        "receipt": f"order_rcpt_{order.id}",
+        "payment_capture": 1,
+    }
+    razorpay_order = client.order.create(data=razorpay_order_data)
+
+    # Save Razorpay order details in the Payment model
+    payment, created = Payment.objects.update_or_create(
+        order=order,
+        defaults={
+            "razorpay_order_id": razorpay_order["id"],
+            "status": "PENDING",
         }
-        razorpay_order = client.order.create(data=razorpay_order_data)
-        Payment.objects.update_or_create(
-            order=order,
-            defaults={
-                "razorpay_order_id": razorpay_order["id"],
-                "status": "PENDING",
-            }
-        )
+    )
 
-        context = {
-            "razorpay_order": razorpay_order,
-            "order": order,
-            "key_id": settings.RAZORPAY_KEY_ID,
-            "addresses": addresses,
-            "address_form": AddressForm(),  # If no address, show the form
-        }
-
-        return render(request, "checkout.html", context)
-
-    return render(request, "checkout.html", {
+    # Pass Razorpay and order details to the template
+    context = {
         "order": order,
-        "addresses": addresses,
-        "address_form": AddressForm(),
-    })
+        "razorpay_order": razorpay_order,
+        "key_id": settings.RAZORPAY_KEY_ID,
+        "addresses": Address.objects.filter(user=request.user),
+    }
+    return render(request, "checkout.html", context)
 
 
 @csrf_exempt
@@ -148,3 +121,5 @@ def payment_failure(request):
     payment.save()
 
     return render(request, "failure.html", {"error": failure_reason})
+
+

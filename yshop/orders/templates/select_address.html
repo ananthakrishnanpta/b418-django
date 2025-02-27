@@ -21,6 +21,7 @@
     </ul>
     <button type="submit" class="btn btn-primary">Select Address</button>
 </form>
+<a href="{% url 'add_address'  %}?next={{request.path}}" class="btn btn-secondary">Add address</a>
 
 
 {% endblock %}
